@@ -416,10 +416,14 @@
 
     <!-- CARD TIENDA -->
     <div class="card">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
-            <h3 style="margin:0;">Tienda Maldito's 🛒</h3>
-            <a href="#" onclick="toggleShopExtra(event)" style="font-size:13px;color:var(--rojo-logo);text-decoration:none;font-weight:500;" id="ver-todo-btn">Ver todo ›</a>
-        </div>
+       </div> <!-- Cierre de nav-logo -->
+    <div class="nav-right">
+        <!-- El carrito debe estar AQUÍ adentro para que el diseño no se rompa -->
+        <button class="cart-icon-btn" onclick="toggleCart()">🛒<span class="cart-badge" id="cart-badge">0</span></button>
+        <a href="login.html" id="user-display" style="color:white;text-decoration:none;font-size:14px;">Iniciar Sesión</a>
+        <a href="#" id="btn-registro" class="btn-registro">Registrarse</a>
+    </div>
+</nav>
         <div class="shop-cat-item" onclick="selectCategory('todos',this)">
             <div class="item-left"><div class="icon-box">🛍️</div><div><p style="font-weight:500;">Todos los productos</p><small style="color:var(--texto-gris);">15 productos</small></div></div>
             <span style="color:var(--texto-gris);">›</span>
