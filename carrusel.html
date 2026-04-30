@@ -46,7 +46,17 @@
         .cart-badge { position: absolute; top: -6px; right: -6px; background: var(--rojo-logo); color: white; font-size: 10px; font-weight: 700; width: 18px; height: 18px; border-radius: 50%; display: none; align-items: center; justify-content: center; border: 2px solid var(--fondo-oscuro); }
         .cart-badge.bump { animation: bump 0.3s ease; }
         @keyframes bump { 0%,100%{transform:scale(1)} 50%{transform:scale(1.5)} }
-
+        .lang-selector { position: relative; }
+        .lang-btn { background: rgba(255,255,255,0.05); border: 1px solid var(--borde); border-radius: 8px; color: white; font-size: 13px; font-family: inherit; padding: 7px 12px; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: all 0.2s; }
+        .lang-btn:hover { border-color: var(--rojo-logo); background: rgba(163,29,49,0.15); }
+        .lang-arrow { font-size: 10px; color: var(--texto-gris); transition: transform 0.2s; display: inline-block; }
+        .lang-arrow.open { transform: rotate(180deg); }
+        .lang-dropdown { position: absolute; top: calc(100% + 8px); right: 0; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; min-width: 150px; z-index: 9999; overflow: hidden; display: none; }
+        .lang-dropdown.open { display: block; }
+        .lang-option { display: flex; align-items: center; gap: 10px; padding: 11px 16px; color: var(--texto-gris); font-size: 13px; cursor: pointer; border: none; background: none; width: 100%; text-align: left; font-family: inherit; transition: background 0.2s, color 0.2s; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .lang-option:last-child { border-bottom: none; }
+        .lang-option:hover { background: rgba(163,29,49,0.15); color: white; }
+        .lang-option.active { color: var(--rojo-logo); }
         .nav-links li { position: relative; }
         .nav-dropdown { position: absolute; top: 40px; left: 0; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; min-width: 160px; z-index: 9999; overflow: hidden; display: none; }
         .nav-dropdown.open { display: flex; flex-direction: column; }
@@ -324,13 +334,21 @@
             <li><a href="#">Ayuda</a></li>
         </ul>
     </div>
-       </div> <!-- Aquí termina el nav-logo -->
-
     <div class="nav-right">
-        <!-- El carrito DEBE estar dentro de este div para alinearse a la derecha -->
+        <div class="lang-selector">
+            <button class="lang-btn" onclick="toggleLangMenu(event)">
+                <span id="lang-flag">🇨🇱</span>
+                <span id="lang-label">ES</span>
+                <span class="lang-arrow" id="lang-arrow">▼</span>
+            </button>
+            <div class="lang-dropdown" id="lang-dropdown">
+                <button class="lang-option active" onclick="setLang('es',event)">🇨🇱 Español</button>
+                <button class="lang-option" onclick="setLang('en',event)">🇺🇸 English</button>
+                <button class="lang-option" onclick="setLang('pt',event)">🇧🇷 Português</button>
+            </div>
+        </div>
         <button class="cart-icon-btn" onclick="toggleCart()">🛒<span class="cart-badge" id="cart-badge">0</span></button>
-        
-        <a href="login.html" id="user-display" style="color:white;text-decoration:none;font-size:14px;">Iniciar Sesión</a>
+       <a href="login.html" id="user-display" style="color:white;text-decoration:none;font-size:14px;">Iniciar Sesión</a>
         <a href="#" id="btn-registro" class="btn-registro">Registrarse</a>
     </div>
 </nav>
@@ -421,14 +439,10 @@
 
     <!-- CARD TIENDA -->
     <div class="card">
-       </div> <!-- Cierre de nav-logo -->
-    <div class="nav-right">
-        <!-- El carrito debe estar AQUÍ adentro para que el diseño no se rompa -->
-        <button class="cart-icon-btn" onclick="toggleCart()">🛒<span class="cart-badge" id="cart-badge">0</span></button>
-        <a href="login.html" id="user-display" style="color:white;text-decoration:none;font-size:14px;">Iniciar Sesión</a>
-        <a href="#" id="btn-registro" class="btn-registro">Registrarse</a>
-    </div>
-</nav>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+            <h3 style="margin:0;">Tienda Maldito's 🛒</h3>
+            <a href="#" onclick="toggleShopExtra(event)" style="font-size:13px;color:var(--rojo-logo);text-decoration:none;font-weight:500;" id="ver-todo-btn">Ver todo ›</a>
+        </div>
         <div class="shop-cat-item" onclick="selectCategory('todos',this)">
             <div class="item-left"><div class="icon-box">🛍️</div><div><p style="font-weight:500;">Todos los productos</p><small style="color:var(--texto-gris);">15 productos</small></div></div>
             <span style="color:var(--texto-gris);">›</span>
@@ -487,7 +501,7 @@
 <footer>
     <div class="footer-main">
         <div class="footer-brand">
-            <img src="https://i.pinimg.com/736x/92/ad/83/92ad83b793583724163fb25630d0ccbf.jpg" alt="Logo">
+            <img src="https://media.discordapp.net/attachments/1495842789575885000/1496911176460664862/logo_solo.png?ex=69f383ab&is=69f2322b&hm=1ecc8e9e1ead563e0e194f0a744a8adac6deb2779630af482e61cc4c0ab6300b&=&format=webp&quality=lossless" alt="Logo">
             <div>
                 <div class="footer-brand-name">maldito<em>'s</em></div>
                 <div style="color:var(--texto-gris);font-size:12px;margin-top:4px;">La comunidad más activa</div>
@@ -689,6 +703,7 @@ var PRODUCTS = [
 var cart = [];
 var shopExtraOpen = false;
 var catExtraOpen = false;
+var langOpen = false;
 var navDropOpen = false;
 var toastTimer;
 var commentCount = 5;
@@ -884,6 +899,25 @@ function toggleLike(btn) {
     span.textContent=btn.classList.contains('liked')?parseInt(span.textContent)+1:parseInt(span.textContent)-1;
 }
 
+function toggleLangMenu(e) {
+    e.stopPropagation(); langOpen=!langOpen;
+    document.getElementById('lang-dropdown').classList.toggle('open',langOpen);
+    document.getElementById('lang-arrow').classList.toggle('open',langOpen);
+}
+
+function setLang(code,e) {
+    if(e) e.stopPropagation();
+    var flags={es:'🇨🇱',en:'🇺🇸',pt:'🇧🇷'};
+    var labels={es:'ES',en:'EN',pt:'PT'};
+    document.getElementById('lang-flag').textContent=flags[code];
+    document.getElementById('lang-label').textContent=labels[code];
+    document.querySelectorAll('.lang-option').forEach(function(o){ o.classList.remove('active'); });
+    if(e&&e.currentTarget) e.currentTarget.classList.add('active');
+    langOpen=false;
+    document.getElementById('lang-dropdown').classList.remove('open');
+    document.getElementById('lang-arrow').classList.remove('open');
+    showToast('🌐 Idioma: '+labels[code]);
+}
 
 function toggleNavDrop(e) {
     e.preventDefault(); e.stopPropagation();
@@ -892,6 +926,7 @@ function toggleNavDrop(e) {
 }
 
 document.addEventListener('click',function(){
+    if(langOpen){ langOpen=false; document.getElementById('lang-dropdown').classList.remove('open'); document.getElementById('lang-arrow').classList.remove('open'); }
     if(navDropOpen){ navDropOpen=false; document.getElementById('nav-dropdown-categorias').classList.remove('open'); }
 });
 
