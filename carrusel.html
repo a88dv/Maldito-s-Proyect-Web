@@ -680,7 +680,6 @@ var PRODUCTS = [
 var cart = [];
 var shopExtraOpen = false;
 var catExtraOpen = false;
-var langOpen = false;
 var navDropOpen = false;
 var toastTimer;
 var commentCount = 5;
@@ -884,7 +883,6 @@ function toggleNavDrop(e) {
 }
 
 document.addEventListener('click',function(){
-    if(langOpen){ langOpen=false; document.getElementById('lang-dropdown').classList.remove('open'); document.getElementById('lang-arrow').classList.remove('open'); }
     if(navDropOpen){ navDropOpen=false; document.getElementById('nav-dropdown-categorias').classList.remove('open'); }
 });
 
